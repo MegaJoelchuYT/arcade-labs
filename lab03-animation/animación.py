@@ -58,9 +58,9 @@ def on_draw(delta_time):
     draw_house(on_draw.house_x, 0)
     draw_mountain(on_draw.mountain_x, 0)
 
-    on_draw.sun_x += 1*delta_time
-    on_draw.house_x += 1*delta_time
-    on_draw.mountain_x +=1*delta_time
+    on_draw.sun_x += 1
+    on_draw.house_x += 1
+    on_draw.mountain_x +=1
 
 def main():
     arcade.set_background_color(arcade.color.AIR_SUPERIORITY_BLUE)
@@ -68,4 +68,4 @@ def main():
     arcade.schedule(on_draw, 1/60)
     arcade.run()
 
-    main()
+main()
