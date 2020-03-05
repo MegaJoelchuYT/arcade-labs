@@ -1,8 +1,6 @@
 import random
 import arcade
 
-
-
 def main():
     print("Welcome to Camel!")
     print("You have stolen a camel to make your way across the great Mobi desert.")
@@ -43,6 +41,11 @@ def main():
             cameltired = cameltired + tirenessrandom
             distrandom = random.randint(7, 14)
             nativedist = nativedist + distrandom
+            if random.randrange(20) == True:
+                print("You found an oasis")
+                canteendrinks = 3
+                thirst = 0
+                cameltired = 0
         elif user_choice.upper() == "B":
             distrandom2 = random.randint(5, 12)
             milestrav = milestrav + distrandom2
@@ -51,17 +54,17 @@ def main():
             cameltired = cameltired + 1
             distrandom = random.randint(7, 14)
             nativedist = nativedist + distrandom
+            if random.randrange(20) == True:
+                print("You found an oasis")
+                canteendrinks = 3
+                thirst = 0
+                cameltired = 0
         elif user_choice.upper() == "A":
             if canteendrinks != 0:
                 canteendrinks = canteendrinks - 1
                 thirst = 0
             else:
                 print("ERROR")
-        if random.randrange(20) == True:
-            print("You found an oasis")
-            canteendrinks = 3
-            thirst = 0
-            cameltired = 0
         if 6 >= thirst > 4:
             print("You are thirsty")
         elif thirst > 6:
