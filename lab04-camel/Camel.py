@@ -70,20 +70,24 @@ def main():
         elif thirst > 6:
             print("You died of thirst!")
             done = True
+            break
         if 8 >= cameltired > 5:
             print("Your camel is getting tired")
         elif cameltired > 8:
             print("Your camel is dead")
             done = True
+            break
         if distnative_you == 0:
             print("The natives caught you")
             done = True
+            break
         elif distnative_you < 15:
             print("The natives are getting close")
         if milestrav >= 200:
             if done == False:
                 print("You've won!!")
                 done = True
+                break
 
 
 
