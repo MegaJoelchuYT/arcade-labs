@@ -25,10 +25,12 @@ def main():
             print("You have quit the game")
             done = True
         elif user_choice.upper() == "E":
-            print(milestrav)
-            print(canteendrinks)
-            print(distnative_you)
+            print("Miles you've traveled: ", milestrav)
+            print("Drinks you have on your canteen: ", canteendrinks)
+            print("Distance from natives to you: ", milestrav - nativedist)
+            print("You camel is now on level", cameltired,  "of tiredness")
         elif user_choice.upper() == "D":
+            cameltired = 0
             print("The camel is happy")
             distrandom = random.randint(7, 14)
             nativedist = nativedist + distrandom
