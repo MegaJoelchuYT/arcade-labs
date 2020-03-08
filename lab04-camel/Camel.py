@@ -11,7 +11,6 @@ def main():
     thirst = 0
     cameltired = 0
     nativedist = -20
-    distnative_you = milestrav - nativedist
     canteendrinks = 3
     while done == False:
         print("A. Drink from your canteen.")
@@ -21,13 +20,14 @@ def main():
         print("E. Status check.")
         print("Q. Quit.")
         user_choice = str(input("What is your choice? "))
+        distnative_you = milestrav - nativedist
         if user_choice.upper() == "Q":
             print("You have quit the game")
             done = True
         elif user_choice.upper() == "E":
             print("Miles you've traveled: ", milestrav)
             print("Drinks you have on your canteen: ", canteendrinks)
-            print("Distance from natives to you: ", milestrav - nativedist)
+            print("Distance from natives to you: ", distnative_you)
             print("You camel is now on level", cameltired,  "of tiredness")
         elif user_choice.upper() == "D":
             cameltired = 0
