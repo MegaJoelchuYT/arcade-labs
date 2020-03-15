@@ -1,6 +1,6 @@
 import arcade
 
-arcade.open_window(800, 600, "Drawing Example")
+
 
 def draw_house(x,y):
     arcade.draw_lrtb_rectangle_filled(300+x, 400+x, 300+y, 200+y, arcade.color.WOOD_BROWN)
@@ -54,15 +54,17 @@ def on_draw(delta_time):
     draw_house(0,0)
     draw_sun(0,0)
     draw_mountain(0,0)
-    draw_sun(on_draw.sun_x,0)
-    draw_house(on_draw.house_x, 0)
-    draw_mountain(on_draw.mountain_x, 0)
-
-    on_draw.sun_x += 1
-    on_draw.house_x += 1
-    on_draw.mountain_x +=1
+    for i in range(60):
+        draw_sun(on_draw.sun_x,0)
+        draw_house(on_draw.house_x, 0)
+        draw_mountain(on_draw.mountain_x, 0)
+        on_draw.sun_x -= -1
+        on_draw.house_x -= -1
+        on_draw.mountain_x -= -1
+        i+=+1
 
 def main():
+    arcade.open_window(800, 600, "Drawing Example")
     arcade.set_background_color(arcade.color.AIR_SUPERIORITY_BLUE)
 
     arcade.schedule(on_draw, 1/60)
