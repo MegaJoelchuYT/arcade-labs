@@ -56,7 +56,7 @@ def draw_section_4():
         for column in range(30):
             x = 10 * column + 905  # Instead of zero, calculate the proper x location using 'column'
             y = 10 * row + 5  # Instead of zero, calculate the proper y location using 'row'
-            if y % 2 == 0:
+            if ((row + 1) % 2 == 0) or ((column + 1) % 2 == 0):
                 arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
             else:
                 arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
