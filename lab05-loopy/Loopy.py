@@ -18,8 +18,8 @@ def draw_section_outlines():
 def draw_section_1():
     for row in range(30):
         for column in range(30):
-            x = 10.2 * column  # Instead of zero, calculate the proper x location using 'column'
-            y = 10.2 * row  # Instead of zero, calculate the proper y location using 'row'
+            x = 10 * column + 5 # Instead of zero, calculate the proper x location using 'column'
+            y = 10 * row + 5 # Instead of zero, calculate the proper y location using 'row'
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
@@ -27,18 +27,39 @@ def draw_section_2():
     # Below, replace "pass" with your code for the loop.
     # Use the modulus operator and an if statement to select the color
     # Don't loop from 30 to 60 to shift everything over, just add 300 to x.
-    pass
+    for row in range(30):
+        for column in range(30):
+            x = 10 * column + 305  # Instead of zero, calculate the proper x location using 'column'
+            y = 10 * row + 5 # Instead of zero, calculate the proper y location using 'row'
+            if (column+1) % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+            else:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_3():
     # Use the modulus operator and an if/else statement to select the color.
     # Don't use multiple 'if' statements.
-    pass
+    for row in range(30):
+        for column in range(30):
+            x = 10 * column + 605  # Instead of zero, calculate the proper x location using 'column'
+            y = 10 * row + 5 # Instead of zero, calculate the proper y location using 'row'
+            if y % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+            else:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_4():
     # Use the modulus operator and just one 'if' statement to select the color.
-    pass
+    for row in range(30):
+        for column in range(30):
+            x = 10 * column + 905  # Instead of zero, calculate the proper x location using 'column'
+            y = 10 * row + 5  # Instead of zero, calculate the proper y location using 'row'
+            if y % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+            else:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_5():
