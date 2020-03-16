@@ -76,8 +76,8 @@ def draw_section_6():
     for row in range(31):
         for column in range(30):
             row = row - 1
-            x = 10 * -column + 595
-            y = 10 * -row + 305
+            x = 10 * column + 305
+            y = 10 * row + 305
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
