@@ -78,7 +78,8 @@ def draw_section_6():
             row = row - 1
             x = 10 * column + 305
             y = 10 * row + 305
-            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            if y >= 305:        #No me dejaba de otra manera este patrón
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_7():
