@@ -1,4 +1,5 @@
 import arcade
+from arcade import Sound
 
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
@@ -41,17 +42,20 @@ class Car:
             self.position_y = SCREEN_HEIGHT - self.radius
 
 class Ball:
-    def __init__(self, position_x, position_y, radius, color):
+    def __init__(self, position_x, position_y, radius):
 
         # Take the parameters of the init function above, and create instance variables out of them.
         self.position_x = position_x
         self.position_y = position_y
         self.radius = radius
-        self.color = color
 
     def draw(self):
         """ Draw the balls with the instance variables we have. """
-        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, self.color)
+        arcade.draw_circle_filled(self.position_x + 50, self.position_y + 100, self.radius, arcade.color.BLACK)
+        arcade.draw_rectangle_filled(self.position_x + 50, self.position_y + 75, self.radius, self.radius + 40, arcade.color.BLACK)
+        arcade.draw_rectangle_filled(self.position_x + 50, self.position_y + 75, self.radius + 40, self.radius - 5, arcade.color.BLACK)
+        arcade.draw_rectangle_filled(self.position_x + 58, self.position_y + 35, self.radius - 5, self.radius + 20, arcade.color.BLACK, 30)
+        arcade.draw_rectangle_filled(self.position_x + 40, self.position_y + 35, self.radius - 5, self.radius + 20, arcade.color.BLACK, -30)
 
 class MyGame(arcade.Window):
 
@@ -63,12 +67,14 @@ class MyGame(arcade.Window):
         # Make the mouse disappear when it is over the window.
         # So we just see our object, not the pointer.
         self.set_mouse_visible(False)
-
+        self.laser_sound = arcade.load_sound("laser.ogg")
+        self.claxon_sound = arcade.load_sound("vehicle039.mp3")
         arcade.set_background_color(arcade.color.ASH_GREY)
 
         # Create our ball
         self.car = Car(50, 50, 0, 0, 15)
-        self.ball = Ball(50, 50, 15, arcade.color.AUBURN)
+        self.ball = Ball(50, 50, 15)
+
 
     def on_draw(self):
         """ Called whenever we need to draw the window. """
@@ -113,6 +119,16 @@ class MyGame(arcade.Window):
         """ Called to update our objects. Happens approximately 60 times per second."""
         self.ball.position_x = x
         self.ball.position_y = y
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        """ Called when the user presses a mouse button. """
+
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            print("Left mouse button pressed at", x, y)
+            arcade.sound.play_sound(self.laser_sound)
+        elif button == arcade.MOUSE_BUTTON_RIGHT:
+            print("Right mouse button pressed at", x, y)
+            arcade.sound.play_sound(self.claxon_sound)
 
     def on_key_press(self, key, modifiers):
         """ Called whenever the user presses a key. """
