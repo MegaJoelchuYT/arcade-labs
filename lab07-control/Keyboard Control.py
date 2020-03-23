@@ -40,6 +40,18 @@ class Car:
         if self.position_y > SCREEN_HEIGHT - self.radius:
             self.position_y = SCREEN_HEIGHT - self.radius
 
+class Ball:
+    def __init__(self, position_x, position_y, radius, color):
+
+        # Take the parameters of the init function above, and create instance variables out of them.
+        self.position_x = position_x
+        self.position_y = position_y
+        self.radius = radius
+        self.color = color
+
+    def draw(self):
+        """ Draw the balls with the instance variables we have. """
+        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, self.color)
 
 class MyGame(arcade.Window):
 
@@ -56,6 +68,7 @@ class MyGame(arcade.Window):
 
         # Create our ball
         self.car = Car(50, 50, 0, 0, 15)
+        self.ball = Ball(50, 50, 15, arcade.color.AUBURN)
 
     def on_draw(self):
         """ Called whenever we need to draw the window. """
@@ -91,9 +104,15 @@ class MyGame(arcade.Window):
         arcade.draw_triangle_filled(500, 400, 600, 600, 700, 400, arcade.color.ANTIQUE_WHITE)
         arcade.draw_circle_filled(15, 600, 75, arcade.color.GOLDEN_YELLOW, 50)
         self.car.draw()
+        self.ball.draw()
 
     def update(self, delta_time):
         self.car.update()
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        """ Called to update our objects. Happens approximately 60 times per second."""
+        self.ball.position_x = x
+        self.ball.position_y = y
 
     def on_key_press(self, key, modifiers):
         """ Called whenever the user presses a key. """
