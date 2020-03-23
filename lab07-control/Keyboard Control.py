@@ -16,6 +16,7 @@ class Car:
         self.change_x = change_x
         self.change_y = change_y
         self.radius = radius
+        self.crash_sound = arcade.load_sound("006140975_prev.mp3")
 
     def draw(self):
         """ Draw the balls with the instance variables we have. """
@@ -31,17 +32,20 @@ class Car:
 
         # See if the ball hit the edge of the screen. If so, change direction
         if self.position_x < self.radius:
-            
+            arcade.sound.play_sound(self.crash_sound)
             self.position_x = self.radius
 
 
         if self.position_x > SCREEN_WIDTH - self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_x = SCREEN_WIDTH - self.radius
 
         if self.position_y < self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_y = self.radius
 
         if self.position_y > SCREEN_HEIGHT - self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_y = SCREEN_HEIGHT - self.radius
 
 class Human:
@@ -51,6 +55,7 @@ class Human:
         self.position_x = position_x
         self.position_y = position_y
         self.radius = radius
+        self.crash_sound = arcade.load_sound("006140975_prev.mp3")
 
     def draw(self):
         """ Draw the balls with the instance variables we have. """
@@ -69,6 +74,7 @@ class ForbiddenSign:
         self.change_x = change_x
         self.change_y = change_y
         self.radius = radius
+        self.crash_sound = arcade.load_sound("006140975_prev.mp3")
 
     def draw(self):
         """ Draw the balls with the instance variables we have. """
@@ -88,15 +94,19 @@ class ForbiddenSign:
 
         # See if the ball hit the edge of the screen. If so, change direction
         if self.position_x < self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_x = self.radius
 
         if self.position_x > SCREEN_WIDTH - self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_x = SCREEN_WIDTH - self.radius
 
         if self.position_y < self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_y = self.radius
 
         if self.position_y > SCREEN_HEIGHT - self.radius:
+            arcade.sound.play_sound(self.crash_sound)
             self.position_y = SCREEN_HEIGHT - self.radius
 
 class MyGame(arcade.Window):
