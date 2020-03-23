@@ -4,6 +4,7 @@ from arcade import Sound
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 MOVEMENT_SPEED = 5
+DEAD_ZONE = 0.02
 
 
 class Car:
@@ -30,7 +31,9 @@ class Car:
 
         # See if the ball hit the edge of the screen. If so, change direction
         if self.position_x < self.radius:
+            
             self.position_x = self.radius
+
 
         if self.position_x > SCREEN_WIDTH - self.radius:
             self.position_x = SCREEN_WIDTH - self.radius
@@ -41,7 +44,7 @@ class Car:
         if self.position_y > SCREEN_HEIGHT - self.radius:
             self.position_y = SCREEN_HEIGHT - self.radius
 
-class Ball:
+class Human:
     def __init__(self, position_x, position_y, radius):
 
         # Take the parameters of the init function above, and create instance variables out of them.
@@ -56,6 +59,45 @@ class Ball:
         arcade.draw_rectangle_filled(self.position_x + 50, self.position_y + 75, self.radius + 40, self.radius - 5, arcade.color.BLACK)
         arcade.draw_rectangle_filled(self.position_x + 58, self.position_y + 35, self.radius - 5, self.radius + 20, arcade.color.BLACK, 30)
         arcade.draw_rectangle_filled(self.position_x + 40, self.position_y + 35, self.radius - 5, self.radius + 20, arcade.color.BLACK, -30)
+
+class ForbiddenSign:
+    def __init__(self, position_x, position_y, change_x, change_y, radius):
+
+        # Take the parameters of the init function above, and create instance variables out of them.
+        self.position_x = position_x
+        self.position_y = position_y
+        self.change_x = change_x
+        self.change_y = change_y
+        self.radius = radius
+
+    def draw(self):
+        """ Draw the balls with the instance variables we have. """
+        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, arcade.color.RED)
+        arcade.draw_rectangle_filled(self.position_x, self.position_y, self.radius, self.radius - 30, arcade.color.WHITE)
+        arcade.draw_rectangle_filled(self.position_x, self.position_y - 85, self.radius - 30, self.radius + 50, arcade.color.ASH_GREY)
+        arcade.draw_rectangle_filled(self.position_x + 60, self.position_y + 35, self.radius - 20, self.radius + 30, arcade.color.DARK_GREEN)
+        arcade.draw_rectangle_filled(self.position_x + 60, self.position_y + 85, self.radius, self.radius + 20, arcade.color.DARK_GREEN)
+        arcade.draw_circle_filled(self.position_x + 60, self.position_y + 100, self.radius - 35, arcade.color.RED)
+        arcade.draw_circle_filled(self.position_x + 60, self.position_y + 85, self.radius - 35, arcade.color.AMBER)
+        arcade.draw_circle_filled(self.position_x + 60, self.position_y + 70, self.radius - 35, arcade.color.GREEN)
+
+    def update(self):
+        # Move the ball
+        self.position_y += self.change_y
+        self.position_x += self.change_x
+
+        # See if the ball hit the edge of the screen. If so, change direction
+        if self.position_x < self.radius:
+            self.position_x = self.radius
+
+        if self.position_x > SCREEN_WIDTH - self.radius:
+            self.position_x = SCREEN_WIDTH - self.radius
+
+        if self.position_y < self.radius:
+            self.position_y = self.radius
+
+        if self.position_y > SCREEN_HEIGHT - self.radius:
+            self.position_y = SCREEN_HEIGHT - self.radius
 
 class MyGame(arcade.Window):
 
@@ -73,7 +115,20 @@ class MyGame(arcade.Window):
 
         # Create our ball
         self.car = Car(50, 50, 0, 0, 15)
-        self.ball = Ball(50, 50, 15)
+        self.human = Human(50, 50, 15)
+        self.forbiddensign = ForbiddenSign(500, 150, 0, 0, 40)
+
+        # Get a list of all the game controllers that are plugged in
+        joysticks = arcade.get_joysticks()
+
+        # If we have a game controller plugged in, grab it and
+        # make an instance variable out of it.
+        if joysticks:
+            self.joystick = joysticks[0]
+            self.joystick.open()
+        else:
+            print("There are no joysticks.")
+            self.joystick = None
 
 
     def on_draw(self):
@@ -110,15 +165,33 @@ class MyGame(arcade.Window):
         arcade.draw_triangle_filled(500, 400, 600, 600, 700, 400, arcade.color.ANTIQUE_WHITE)
         arcade.draw_circle_filled(15, 600, 75, arcade.color.GOLDEN_YELLOW, 50)
         self.car.draw()
-        self.ball.draw()
+        self.human.draw()
+        self.forbiddensign.draw()
 
     def update(self, delta_time):
         self.car.update()
 
+        # Update the position according to the game controller
+        if self.joystick:
+
+            # Set a "dead zone" to prevent drive from a centered joystick
+            if abs(self.joystick.x) < DEAD_ZONE:
+                self.forbiddensign.change_x = 0
+            else:
+                self.forbiddensign.change_x = self.joystick.x * MOVEMENT_SPEED
+
+            # Set a "dead zone" to prevent drive from a centered joystick
+            if abs(self.joystick.y) < DEAD_ZONE:
+                self.forbiddensign.change_y = 0
+            else:
+                self.forbiddensign.change_y = -self.joystick.y * MOVEMENT_SPEED
+
+            self.forbiddensign.update()
+
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called to update our objects. Happens approximately 60 times per second."""
-        self.ball.position_x = x
-        self.ball.position_y = y
+        self.human.position_x = x
+        self.human.position_y = y
 
     def on_mouse_press(self, x, y, button, modifiers):
         """ Called when the user presses a mouse button. """
