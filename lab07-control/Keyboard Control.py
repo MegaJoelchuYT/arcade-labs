@@ -2,11 +2,11 @@ import arcade
 
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
-MOVEMENT_SPEED = 3
+MOVEMENT_SPEED = 5
 
 
-class Ball:
-    def __init__(self, position_x, position_y, change_x, change_y, radius, color):
+class Car:
+    def __init__(self, position_x, position_y, change_x, change_y, radius):
 
         # Take the parameters of the init function above, and create instance variables out of them.
         self.position_x = position_x
@@ -14,11 +14,13 @@ class Ball:
         self.change_x = change_x
         self.change_y = change_y
         self.radius = radius
-        self.color = color
 
     def draw(self):
         """ Draw the balls with the instance variables we have. """
-        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, self.color)
+        arcade.draw_circle_filled(self.position_x, self.position_y, self.radius, arcade.color.ASH_GREY)
+        arcade.draw_circle_filled(self.position_x + 100, self.position_y, self.radius, arcade.color.ASH_GREY)
+        arcade.draw_rectangle_filled(self.position_x + 50, self.position_y + 50, self.radius + 145, self.radius + 60, arcade.color.RED)
+        arcade.draw_rectangle_filled(self.position_x + 50, self.position_y + 100, self.radius + 70, self.radius + 40, arcade.color.RED)
 
     def update(self):
         # Move the ball
@@ -53,38 +55,63 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.ASH_GREY)
 
         # Create our ball
-        self.ball = Ball(50, 50, 0, 0, 15, arcade.color.AUBURN)
+        self.car = Car(50, 50, 0, 0, 15)
 
     def on_draw(self):
         """ Called whenever we need to draw the window. """
-        arcade.set_background_color(arcade.color.DARK_BLUE)
+        arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.start_render()
-        arcade.draw_rectangle_filled(200, 200, 200, 75, arcade.color.RED)
-        arcade.draw_rectangle_filled(200, 250, 125, 55, arcade.color.RED)
-        arcade.draw_circle_filled(250, 150, 25, arcade.color.ASH_GREY)
-        arcade.draw_circle_filled(150, 150, 25, arcade.color.ASH_GREY)
-        self.ball.draw()
+        arcade.draw_lrtb_rectangle_filled(300, 400, 300, 200, arcade.color.WOOD_BROWN)
+        arcade.draw_arc_filled(350, 300, 100, 100, arcade.color.FERRARI_RED, 0, 180, 0, 150)
+        arcade.draw_lrtb_rectangle_filled(340, 360, 250, 200, arcade.color.DARK_BROWN)
+        arcade.draw_lrtb_rectangle_filled(0, 1000, 199, 150, arcade.color.APPLE_GREEN)
+        arcade.draw_lrtb_rectangle_filled(0, 1000, 149, 50, arcade.color.BLACK)
+        arcade.draw_lrtb_rectangle_filled(0, 1000, 49, 0, arcade.color.APPLE_GREEN)
+        arcade.draw_lrtb_rectangle_filled(25, 50, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(75, 100, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(125, 150, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(175, 200, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(225, 250, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(275, 300, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(325, 350, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(375, 400, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(425, 450, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(475, 500, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(525, 550, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(575, 600, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(625, 650, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(675, 700, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(725, 750, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(775, 800, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(825, 850, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(875, 900, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(925, 950, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_lrtb_rectangle_filled(975, 1000, 101, 100, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_triangle_filled(400, 200, 600, 600, 800, 200, arcade.color.DARK_BROWN)
+        arcade.draw_triangle_filled(500, 400, 600, 600, 700, 400, arcade.color.ANTIQUE_WHITE)
+        arcade.draw_circle_filled(15, 600, 75, arcade.color.GOLDEN_YELLOW, 50)
+        self.car.draw()
 
     def update(self, delta_time):
-        self.ball.update()
+        self.car.update()
 
     def on_key_press(self, key, modifiers):
         """ Called whenever the user presses a key. """
         if key == arcade.key.LEFT:
-            self.ball.change_x = -MOVEMENT_SPEED
+            self.car.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.ball.change_x = MOVEMENT_SPEED
+            self.car.change_x = MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.ball.change_y = MOVEMENT_SPEED
+            self.car.change_y = MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.ball.change_y = -MOVEMENT_SPEED
+            self.car.change_y = -MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """ Called whenever a user releases a key. """
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
-            self.ball.change_x = 0
+            self.car.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:
-            self.ball.change_y = 0
+            self.car.change_y = 0
 
 
 def main():
