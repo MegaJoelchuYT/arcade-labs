@@ -15,7 +15,7 @@ class Sprite:
 
     def draw(self):
         """ Draw the balls with the instance variables we have. """
-        arcade.Sprite("b5caee877eb1178fdd396703be052901.png", 0.05, 50, 50, 30, 30, self.position_x, self.position_y)
+        arcade.Sprite("130px-Joven_ROZA.png", 0.05, 50, 50, 30, 30, self.position_x, self.position_y, self.position_x, self.position_y)
 
 
 
@@ -52,7 +52,7 @@ class MyGame(arcade.Window):
 
 
 def main():
-    window = MyGame(640, 480, "Drawing Example")
+    window = MyGame(640, 480, "Sprites")
     arcade.run()
 
 
