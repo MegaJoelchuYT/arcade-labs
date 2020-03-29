@@ -6,6 +6,7 @@ import arcade
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 0.25
 SPRITE_SCALING_BALL = 0.05
+SPRITE_SCALING_RIVAL = 0.05
 COIN_COUNT = 50
 
 SCREEN_WIDTH = 800
@@ -23,6 +24,7 @@ class MyGame(arcade.Window):
         # Variables that will hold sprite lists
         self.player_list = None
         self.ball_list = None
+        self.rival.list = None
 
         # Set up the player info
         self.player_sprite = None
@@ -33,6 +35,7 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLUE)
         self.coin_sound = arcade.load_sound("mario-coin.mp3")
+        self.fail_sound = arcade.load_sound("correct-cbt-sound.mp3")
 
     def setup(self):
         """ Set up the game and initialize the variables. """
@@ -40,6 +43,7 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.ball_list = arcade.SpriteList()
+        self.rival.list = arcade.SpriteList()
 
         # Score
         self.score = 0
@@ -65,11 +69,25 @@ class MyGame(arcade.Window):
             # Add the coin to the lists
             self.ball_list.append(ball)
 
+        for i in range(COIN_COUNT / 2):
+
+            # Create the coin instance
+            # Coin image from kenney.nl
+            rival = arcade.Sprite("130px-Joven_ROZA.png", SPRITE_SCALING_RIVAL)
+
+            # Position the coin
+            rival.center_x = random.randrange(SCREEN_WIDTH)
+            rival.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Add the coin to the lists
+            self.rival_list.append(rival)
+
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
         self.ball_list.draw()
         self.player_list.draw()
+        self.rival_list.draw()
 
         # Put the text on the screen.
         output = f"Score: {self.score}"
@@ -88,10 +106,13 @@ class MyGame(arcade.Window):
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
         self.ball_list.update()
+        self.rival_list.update()
 
         # Generate a list of all sprites that collided with the player.
         ball_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.ball_list)
+        rival_hit_list = arcade.check_for_collision_with_list(self.player_list,
+                                                              self.rival_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
         for ball in ball_hit_list:
@@ -99,6 +120,10 @@ class MyGame(arcade.Window):
             self.score += 1
             arcade.sound.play_sound(self.coin_sound)
 
+        for rival in rival_hit_list:
+            rival.remove_from_sprite_lists()
+            self.score -= 1
+            arcade.sound.play_sound(self.fail_sound)
 
 def main():
     """ Main method """
