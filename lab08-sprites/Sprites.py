@@ -1,59 +1,111 @@
+""" Sprite Sample Program """
+
+import random
 import arcade
-from arcade import Sound
 
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
-MOVEMENT_SPEED = 5
+# --- Constants ---
+SPRITE_SCALING_PLAYER = 0.25
+SPRITE_SCALING_BALL = 0.05
+COIN_COUNT = 50
 
-
-class Sprite:
-    def __init__(self, position_x, position_y):
-
-        # Take the parameters of the init function above, and create instance variables out of them.
-        self.position_x = position_x
-        self.position_y = position_y
-
-    def draw(self):
-        """ Draw the balls with the instance variables we have. """
-        arcade.Sprite("130px-Joven_ROZA.png", 0.05, 50, 50, 30, 30, self.position_x, self.position_y, self.position_x, self.position_y)
-
-
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
 
 class MyGame(arcade.Window):
+    """ Our custom Window Class"""
 
-    def __init__(self, width, height, title):
+    def __init__(self):
+        """ Initializer """
+        # Call the parent class initializer
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprite Example")
 
-        # Call the parent class's init function
-        super().__init__(width, height, title)
+        # Variables that will hold sprite lists
+        self.player_list = None
+        self.ball_list = None
 
-        # Make the mouse disappear when it is over the window.
-        # So we just see our object, not the pointer.
+        # Set up the player info
+        self.player_sprite = None
+        self.score = 0
+
+        # Don't show the mouse cursor
         self.set_mouse_visible(False)
-        arcade.set_background_color(arcade.color.ASH_GREY)
 
-        # Create our ball
-        self.sprite = Sprite(50, 50)
+        arcade.set_background_color(arcade.color.BLUE)
+        self.coin_sound = arcade.load_sound("mario-coin.mp3")
 
+    def setup(self):
+        """ Set up the game and initialize the variables. """
+
+        # Sprite lists
+        self.player_list = arcade.SpriteList()
+        self.ball_list = arcade.SpriteList()
+
+        # Score
+        self.score = 0
+
+        # Set up the player
+        # Character image from kenney.nl
+        self.player_sprite = arcade.Sprite("character.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite.center_x = 50
+        self.player_sprite.center_y = 50
+        self.player_list.append(self.player_sprite)
+
+        # Create the coins
+        for i in range(COIN_COUNT):
+
+            # Create the coin instance
+            # Coin image from kenney.nl
+            ball = arcade.Sprite("okegreatultramaster-ball-super-mario-world-boo-sprite-11562983716xog8m5pbnj.png", SPRITE_SCALING_BALL)
+
+            # Position the coin
+            ball.center_x = random.randrange(SCREEN_WIDTH)
+            ball.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Add the coin to the lists
+            self.ball_list.append(ball)
 
     def on_draw(self):
-        """ Called whenever we need to draw the window. """
-        arcade.set_background_color(arcade.color.BLUE)
+        """ Draw everything """
         arcade.start_render()
-        self.sprite.draw()
+        self.ball_list.draw()
+        self.player_list.draw()
 
-    def update(self, delta_time):
-        pass
+        # Put the text on the screen.
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
 
     def on_mouse_motion(self, x, y, dx, dy):
-        """ Called to update our objects. Happens approximately 60 times per second."""
-        self.sprite.position_x = x
-        self.sprite.position_y = y
+        """ Handle Mouse Motion """
+
+        # Move the center of the player sprite to match the mouse x, y
+        self.player_sprite.center_x = x
+        self.player_sprite.center_y = y
+
+    def update(self, delta_time):
+        """ Movement and game logic """
+
+        # Call update on all sprites (The sprites don't do much in this
+        # example though.)
+        self.ball_list.update()
+
+        # Generate a list of all sprites that collided with the player.
+        ball_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.ball_list)
+
+        # Loop through each colliding sprite, remove it, and add to the score.
+        for ball in ball_hit_list:
+            ball.remove_from_sprite_lists()
+            self.score += 1
+            arcade.sound.play_sound(self.coin_sound)
 
 
 def main():
-    window = MyGame(640, 480, "Sprites")
+    """ Main method """
+    window = MyGame()
+    window.setup()
     arcade.run()
 
 
-main()
+if __name__ == "__main__":
+    main()
