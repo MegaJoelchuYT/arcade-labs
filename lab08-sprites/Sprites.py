@@ -24,7 +24,7 @@ class MyGame(arcade.Window):
         # Variables that will hold sprite lists
         self.player_list = None
         self.ball_list = None
-        self.rival.list = None
+        self.rival_list = None
 
         # Set up the player info
         self.player_sprite = None
@@ -43,7 +43,7 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.ball_list = arcade.SpriteList()
-        self.rival.list = arcade.SpriteList()
+        self.rival_list = arcade.SpriteList()
 
         # Score
         self.score = 0
@@ -68,8 +68,6 @@ class MyGame(arcade.Window):
 
             # Add the coin to the lists
             self.ball_list.append(ball)
-
-        for i in range(COIN_COUNT / 2):
 
             # Create the coin instance
             # Coin image from kenney.nl
@@ -106,20 +104,20 @@ class MyGame(arcade.Window):
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
         self.ball_list.update()
-        self.rival_list.update()
 
         # Generate a list of all sprites that collided with the player.
         ball_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.ball_list)
-        rival_hit_list = arcade.check_for_collision_with_list(self.player_list,
-                                                              self.rival_list)
-
         # Loop through each colliding sprite, remove it, and add to the score.
         for ball in ball_hit_list:
             ball.remove_from_sprite_lists()
             self.score += 1
             arcade.sound.play_sound(self.coin_sound)
 
+        self.rival_list.update()
+
+        rival_hit_list = arcade.check_for_collision_with_list(self.player_list,
+                                                               self.rival_list)
         for rival in rival_hit_list:
             rival.remove_from_sprite_lists()
             self.score -= 1
