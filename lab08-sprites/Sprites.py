@@ -7,10 +7,23 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.25
 SPRITE_SCALING_BALL = 0.05
 SPRITE_SCALING_GRAY = 0.5
-COIN_COUNT = 100
+COIN_COUNT = 50
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+
+class Ball(arcade.Sprite):
+
+    def update(self):
+        self.center_y -= 1
+
+        # See if the coin has fallen off the bottom of the screen.
+        # If so, reset it.
+        if self.top < 0:
+            # Reset the coin to a random spot above the screen
+            self.center_y = random.randrange(SCREEN_HEIGHT + 20,
+                                             SCREEN_HEIGHT + 100)
+            self.center_x = random.randrange(SCREEN_WIDTH)
 
 
 class MyGame(arcade.Window):
@@ -60,7 +73,7 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            ball = arcade.Sprite("okegreatultramaster-ball-super-mario-world-boo-sprite-11562983716xog8m5pbnj.png", SPRITE_SCALING_BALL)
+            ball = Ball("okegreatultramaster-ball-super-mario-world-boo-sprite-11562983716xog8m5pbnj.png", SPRITE_SCALING_BALL)
 
             # Position the coin
             ball.center_x = random.randrange(SCREEN_WIDTH)
@@ -112,8 +125,11 @@ class MyGame(arcade.Window):
                                                               self.ball_list)
         # Loop through each colliding sprite, remove it, and add to the score.
         for ball in ball_hit_list:
-            ball.remove_from_sprite_lists()
             self.score += 1
+            # Reset the coin to a random spot above the screen
+            ball.center_y = random.randrange(SCREEN_HEIGHT + 20,
+                                             SCREEN_HEIGHT + 100)
+            ball.center_x = random.randrange(SCREEN_WIDTH)
             arcade.sound.play_sound(self.coin_sound)
 
         self.gray_list.update()
