@@ -169,10 +169,6 @@ class MyGame(arcade.Window):
             ball.remove_from_sprite_lists()
             self.score += 1
             arcade.sound.play_sound(self.coin_sound)
-            self.ball_list.update()
-            if self.ball_list == None:
-                output = f"GAME OVER"
-                arcade.draw_text(output, 250, 300, arcade.color.WHITE, 30)
 
         self.gray_list.update()
 
@@ -184,7 +180,10 @@ class MyGame(arcade.Window):
             gray.remove_from_sprite_lists()
             self.score -= 1
             arcade.sound.play_sound(self.fail_sound)
-
+            
+        if self.ball_list == None:
+            output = f"GAME OVER"
+            arcade.draw_text(output, 250, 300, arcade.color.WHITE, 30)
 def main():
     """ Main method """
     window = MyGame()
