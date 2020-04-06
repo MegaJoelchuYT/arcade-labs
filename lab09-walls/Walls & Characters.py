@@ -1,14 +1,3 @@
-"""
-Use sprites to scroll around a large screen.
-
-Simple program to show basic sprite usage.
-
-Artwork from http://kenney.nl
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.sprite_move_scrolling
-"""
-
 import random
 import arcade
 import os
@@ -61,21 +50,35 @@ class MyGame(arcade.Window):
         self.wall_list = arcade.SpriteList()
 
         # Set up the player
-        self.player_sprite = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png", 0.4)
+        self.player_sprite = arcade.Sprite("character1.png", 0.4)
         self.player_sprite.center_x = 64
         self.player_sprite.center_y = 270
         self.player_list.append(self.player_sprite)
 
         # -- Set up several columns of walls
-        for x in range(200, 1650, 210):
-            for y in range(0, 1000, 64):
+        for x in range(200, 6000, 210):
+            for y in range(0, 525, 64):
                 # Randomly skip a box so the player can find a way through
                 if random.randrange(5) > 0:
-                    wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", SPRITE_SCALING)
+                    wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
                     wall.center_x = x
                     wall.center_y = y
                     self.wall_list.append(wall)
-
+        for x in range(0, 7000, 60):
+            wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 0
+            self.wall_list.append(wall)
+        for x in range(0, 7000, 60):
+            wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 600
+            self.wall_list.append(wall)
+        for y in range(0, 700, 60):
+            wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
+            wall.center_x = 0
+            wall.center_y = y
+            self.wall_list.append(wall)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
         # Set the background color
