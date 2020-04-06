@@ -56,8 +56,8 @@ class MyGame(arcade.Window):
         self.player_list.append(self.player_sprite)
 
         # -- Set up several columns of walls
-        for x in range(200, 6000, 210):
-            for y in range(0, 525, 64):
+        for x in range(200, 6500, 210):
+            for y in range(0, 500, 64):
                 # Randomly skip a box so the player can find a way through
                 if random.randrange(5) > 0:
                     wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
@@ -77,6 +77,11 @@ class MyGame(arcade.Window):
         for y in range(0, 700, 60):
             wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
             wall.center_x = 0
+            wall.center_y = y
+            self.wall_list.append(wall)
+        for y in range(0, 700, 60):
+            wall = arcade.Sprite("boxCrate_double.png", SPRITE_SCALING)
+            wall.center_x = 7000
             wall.center_y = y
             self.wall_list.append(wall)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
